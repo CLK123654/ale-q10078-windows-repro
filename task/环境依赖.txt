@@ -1,5 +1,7 @@
-本任务支持64位Windows11、macOS和Linux。主软件为Playwright1.62.1，运行时使用Node.js24LTS和锁文件中的依赖。Windows11在PowerShell中进入input_data后执行npm ci，再执行npx playwright install chromium安装浏览器，最后执行npm run test:e2e。
+操作系统： Windows11、macOS或主流64位Linux。
 
-辅助工具为PowerShell或系统终端。依赖和Chromium安装阶段需要联网访问npm及Playwright软件源，正式运行只访问127.0.0.1本地静态服务，不需要客服系统账号、云端密钥、数据库或商业许可证。输入材料是脱敏演练数据，不含真实客户资料。
+主软件为Playwright1.62.1和Chromium，Node.js24LTS负责测试入口，依赖版本按package-lock.json安装。PowerShell或系统终端用于执行npm命令。
 
-运行账户需要读取input_data并写入reports、artifacts和.playwright-results，还要绑定一个本机回环端口。本题特有风险包括路由数据越过角色权限、WebSocket替换时机过晚、会话事件没有触发重新排序、焦点顺序被隐藏控件打断，以及浏览器时钟没有固定。
+安装npm依赖和Chromium时需要联网。正式运行只访问本机静态服务，执行账号需要读取input_data，并写入reports、artifacts和.playwright-results。
+
+当前会话场景适合普通64位多核CPU和能稳定运行一个Chromium上下文的内存，不使用GPU计算。磁盘应能容纳Node.js依赖、Chromium、报告和截图。需设置有限超时，覆盖本题的页面、路由、Socket和键盘操作。

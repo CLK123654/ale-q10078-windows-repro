@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "task_key": "id:10078",
+  "result": "PASS",
+  "change_type": "business_data_label_text_only",
+  "changed_fields": [
+    "评分表（直接输入内容或使用txt文档）‼️",
+    "本项任务的环境依赖",
+    "任务规格转化（excel或txt文档）"
+  ],
+  "unchanged": [
+    "data",
+    "rules",
+    "code",
+    "attachment_member_structure",
+    "answers",
+    "score_semantics"
+  ],
+  "business_semantics_changed": false,
+  "windows_rerun_required": false,
+  "reason": "仅删除演练数据、许可证和内部核验口吻，并按原客服业务链整理任务规格；业务输入、规则、执行代码、答案和评分语义未变。",
+  "attachment_sha256": {
+    "输入数据包.zip": "5d4c03f05fbf006aad55b967adaf6121a03f781809d3ee2d7f4e36c134429bda",
+    "reference.zip": "f0e4d7bedb6d36c028b15a3ebe9e90a2918117498b49a54a4afcf5ccc2bf1e49",
+    "关键标准答案.xlsx": "970f7da6e1c02581aa02a8dd306f904c917957b2f86520d412b5a5bf6bdca7b4",
+    "任务规格转化.xlsx": "19ea77fba6765ac703540ba3a1f71c33d8e7c68fbbfc64f073b7f84b8e80f032"
+  },
+  "spec_review": {
+    "result": "PASS",
+    "columns": 2,
+    "rows": 19,
+    "task_id": "playwright_support_console_realtime_regression",
+    "input_source": true,
+    "business_goal": true,
+    "deliverables": true,
+    "software_steps": true,
+    "implementation_boundary": true,
+    "visual_review": "PASS"
+  },
+  "humanizer_review": "PASS",
+  "language_scan": {
+    "mixed_boundary_space_count": 0,
+    "double_quote_count": 0
+  }
+}
