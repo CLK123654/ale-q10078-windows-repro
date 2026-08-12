@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "skill": "humanizer-zh",
+  "result": "PASS",
+  "reviewed_scopes": [
+    "任务名称",
+    "任务概要",
+    "任务prompt",
+    "关键动作",
+    "评分表",
+    "环境依赖",
+    "软件步骤",
+    "输入材料中的自然语言",
+    "标准交付中的用户可见文字",
+    "关键标准答案工作簿全部自然语言",
+    "任务规格工作簿全部自然语言"
+  ],
+  "scores": {
+    "直接性": 10,
+    "节奏": 9,
+    "信任度": 10,
+    "真实性": 9,
+    "精炼度": 9,
+    "total": 47
+  },
+  "minimum_total": 45,
+  "notes": [
+    "题面从客服工作台发布风险切入，明确前端测试工程师和发布负责人怎样使用浏览器用例、报告与截图。",
+    "角色范围、事件顺序、排序和固定时刻都来自输入合同，没有用宣传词或模糊价值判断替代业务条件。",
+    "评分项只保留输入规则、业务主键、字段、容差和复算关系，精确结果留在关键标准答案中。",
+    "句式长短经过调整，交付路径集中说明，线上AI感检测没有参与当前语言结论。"
+  ],
+  "online_ai_detection_used_as_conclusion": false,
+  "reviewed_artifacts_sha256": {
+    "任务名称.txt": "89bc9e802b4692da685863d83886479672c9526fab321d4ad60956983773044c",
+    "任务概要.txt": "10ac3be8c5b2975f434ea9c48d8226a1b7404f2b4288eb4b73ff06c69de66f39",
+    "任务prompt.txt": "8b69e62115ebfd73232d67afd12dfbcad3b5dee42714f26a577b5c6eddfbc9b8",
+    "关键动作.txt": "bf6339848a968e16f186ae79d9ee747d0e818ca99cc044b14b17a0a6fcac41eb",
+    "评分表.txt": "cc529cd8b12847fe37fe0a885ff851445741b451d04fb7666d6a722940fcb31b",
+    "环境依赖.txt": "7a5fb95f19350debfab7f639278fdca482553a1c8b3bc4ad77ed62e2c18f065d",
+    "相关专业软件的关键步骤.txt": "85d80e0a9eae6940f5e5cd3078f055ecf7cb098239400015b5468b0182f6cc6d",
+    "task_fields.json": "fdec97e0c1d59680b1d4c90ec41d06dd938cc91103d1fbddee6bee71173f2be4",
+    "ALE-专家数据作业表.csv": "e56947874738f78604eef0459bdc21a2f1174ba47875dc265ade70b5671eb09b",
+    "输入数据包.zip": "5d4c03f05fbf006aad55b967adaf6121a03f781809d3ee2d7f4e36c134429bda",
+    "reference.zip": "f0e4d7bedb6d36c028b15a3ebe9e90a2918117498b49a54a4afcf5ccc2bf1e49",
+    "关键标准答案.xlsx": "970f7da6e1c02581aa02a8dd306f904c917957b2f86520d412b5a5bf6bdca7b4",
+    "任务规格转化.xlsx": "ceca6e05e97c89b9d987573217351a2eba03208e8ce905a39fe52efbfdb5f680"
+  }
+}

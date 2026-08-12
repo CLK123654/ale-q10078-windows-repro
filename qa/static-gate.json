@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "result": "PASS",
+  "scanned_sources": 238,
+  "violations": [],
+  "answer_sheets": [
+    "交付物答案清单",
+    "固定字段答案",
+    "固定集合答案",
+    "固定数值答案",
+    "允许变体答案"
+  ],
+  "specification_sheets": [
+    "任务规格转化"
+  ],
+  "task_spec_row_count": 19,
+  "task_spec_column_count": 2,
+  "task_asset_id": "playwright_support_console_realtime_regression",
+  "task_asset_id_valid": true,
+  "forbidden_spec_labels": [],
+  "declared_delivery_paths": [
+    "artifacts/agent-billing-after-feed.png",
+    "playwright.config.ts",
+    "reports/case_results.csv",
+    "reports/focus_path.csv",
+    "reports/socket_event_audit.csv",
+    "tests/support_console_realtime.spec.ts"
+  ],
+  "reference_paths": [
+    "artifacts/agent-billing-after-feed.png",
+    "playwright.config.ts",
+    "reports/case_results.csv",
+    "reports/focus_path.csv",
+    "reports/socket_event_audit.csv",
+    "tests/support_console_realtime.spec.ts"
+  ],
+  "business_inputs": [
+    "input_data/app/support_console.html",
+    "input_data/app/support_console.js",
+    "input_data/fixtures/conversations.json",
+    "input_data/fixtures/socket_feed.json",
+    "input_data/fixtures/agent_roles.json",
+    "input_data/cases/realtime_cases.csv",
+    "input_data/rules/console_contract.json"
+  ],
+  "business_inputs_present": true,
+  "online_ai_detector_used_as_conclusion": false
+}
