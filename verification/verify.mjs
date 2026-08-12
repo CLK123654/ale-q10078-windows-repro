@@ -10,7 +10,7 @@ import { inflateRawSync } from 'node:zlib';
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const artifactRoot = fs.existsSync(path.join(repoRoot, 'artifacts')) ? path.join(repoRoot, 'artifacts') : repoRoot;
 const evidenceRoot = path.join(repoRoot, 'verification', 'evidence');
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+const npmCli = process.env.npm_execpath;
 const attachmentNames = ['输入数据包.zip', 'reference.zip', '关键标准答案.xlsx', '任务规格转化.xlsx'];
 const expectedReferenceFiles = [
   'artifacts/agent-billing-after-feed.png', 'playwright.config.ts', 'reports/case_results.csv',
@@ -101,7 +101,13 @@ function digestTree(root, ignored = new Set()) {
 async function run(command, args, cwd, env = {}) {
   const started = Date.now();
   return await new Promise((resolve) => {
-    const child = spawn(command, args, { cwd, env: { ...process.env, ...env }, windowsHide: true });
+    let child;
+    try {
+      child = spawn(command, args, { cwd, env: { ...process.env, ...env }, windowsHide: true });
+    } catch (error) {
+      resolve({ code: 1, stdout: '', stderr: error.stack ?? error.message, elapsed_ms: Date.now() - started });
+      return;
+    }
     let stdout = '';
     let stderr = '';
     child.stdout.on('data', (chunk) => { stdout += chunk; });
@@ -109,6 +115,11 @@ async function run(command, args, cwd, env = {}) {
     child.on('error', (error) => resolve({ code: 1, stdout, stderr: `${stderr}${error.stack ?? error.message}`, elapsed_ms: Date.now() - started }));
     child.on('exit', (code) => resolve({ code: code ?? 1, stdout, stderr, elapsed_ms: Date.now() - started }));
   });
+}
+
+async function runNpm(args, cwd) {
+  if (!npmCli) throw new Error('找不到npm CLI入口');
+  return await run(process.execPath, [npmCli, ...args], cwd);
 }
 
 async function prepareRun(label, mutation) {
@@ -125,9 +136,9 @@ async function prepareRun(label, mutation) {
 }
 
 async function installRuntime(inputRoot) {
-  const installDependencies = await run(npmCommand, ['ci'], inputRoot);
+  const installDependencies = await runNpm(['ci'], inputRoot);
   if (installDependencies.code !== 0) throw new Error(`npm ci失败\n${installDependencies.stderr}`);
-  const installBrowser = await run(npmCommand, ['exec', '--', 'playwright', 'install', 'chromium'], inputRoot);
+  const installBrowser = await runNpm(['exec', '--', 'playwright', 'install', 'chromium'], inputRoot);
   if (installBrowser.code !== 0) throw new Error(`Chromium安装失败\n${installBrowser.stdout}\n${installBrowser.stderr}`);
   return {
     dependency_exit_code: installDependencies.code,
@@ -175,7 +186,7 @@ for (const label of ['Q10078 第一次 干净目录', 'Q10078 第二次 中文 �
   const prepared = await prepareRun(label);
   const before = digestTree(prepared.inputRoot, new Set(['node_modules', 'reports', 'artifacts', '.playwright-results']));
   const installation = await installRuntime(prepared.inputRoot);
-  const task = await run(npmCommand, ['run', 'test:e2e'], prepared.inputRoot);
+  const task = await runNpm(['run', 'test:e2e'], prepared.inputRoot);
   if (task.code !== 0) throw new Error(`浏览器运行失败\n${task.stdout}\n${task.stderr}`);
   const after = digestTree(prepared.inputRoot, new Set(['node_modules', 'reports', 'artifacts', '.playwright-results']));
   if (before !== after) throw new Error('业务输入在运行中发生变化');
@@ -192,7 +203,7 @@ const mutation = await prepareRun('Q10078 有效输入变化', async (inputRoot)
   await fsp.writeFile(file, `${JSON.stringify(value, null, 2)}\n`);
 });
 await installRuntime(mutation.inputRoot);
-let result = await run(npmCommand, ['run', 'test:e2e'], mutation.inputRoot);
+let result = await runNpm(['run', 'test:e2e'], mutation.inputRoot);
 if (result.code !== 0) throw new Error(`变化用例失败\n${result.stdout}\n${result.stderr}`);
 const mutationRows = semanticResults(mutation.inputRoot);
 const changedS01 = mutationRows.payload.eventRows.find((row) => row.event_id === 'S01');
@@ -202,7 +213,7 @@ const negative = await prepareRun('Q10078 无效输入', async (inputRoot) => {
   await fsp.rm(path.join(inputRoot, 'fixtures/agent_roles.json'));
 });
 await installRuntime(negative.inputRoot);
-result = await run(npmCommand, ['run', 'test:e2e'], negative.inputRoot);
+result = await runNpm(['run', 'test:e2e'], negative.inputRoot);
 const deliverablesAbsent = !fs.existsSync(path.join(negative.inputRoot, 'reports')) && !fs.existsSync(path.join(negative.inputRoot, 'artifacts'));
 if (result.code === 0 || !deliverablesAbsent) throw new Error('无效输入没有失败关闭');
 
