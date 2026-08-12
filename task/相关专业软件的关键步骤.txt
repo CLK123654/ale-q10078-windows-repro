@@ -1,0 +1,8 @@
+1. 从fixtures与cases读取角色、会话、事件和场景，按业务字段计算路由数据。
+2. 在playwright.config.ts中设置测试目录、Chromium项目、Asia/Shanghai时区和本地静态服务。
+3. 为每个场景准备角色对应的会话集合与事件边界。
+4. 使用page.route接管/api/conversations，在page.goto前通过page.addInitScript安装本地WebSocket替身。
+5. 按feed_until派发事件，读取页面中的会话主键、未读数、优先级、分配人和状态。
+6. 使用data-testid与data-conversation-id定位队列、会话和详情，不依赖坐标或临时样式类。
+7. 使用page.keyboard.press执行Tab和Enter路径，并记录实际获得焦点的控件。
+8. 固定浏览器时钟后核对两条SLA文案，写出三份CSV并保存billing队列截图。

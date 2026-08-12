@@ -1,0 +1,7 @@
+客服工作台准备发布实时会话队列更新。前端负责人担心坐席与主管看到的会话范围不同，Socket消息到达后排序会改变，键盘用户也可能落到错误控件。你负责补齐这组浏览器回归，发布负责人会根据结果决定是否合并本次更新。
+
+输入数据包中的input_data/app提供离线页面，fixtures目录保存会话、角色和Socket事件，cases/realtime_cases.csv列出业务场景，rules/console_contract.json规定排序、时区和截图名称。所有请求都留在本机。/api/conversations必须通过Playwright路由返回按角色权限筛选后的数据，WebSocket需要在页面脚本启动前替换，并按事件文件顺序发送。
+
+使用Playwright1.62.1和Chromium完成playwright.config.ts及tests/support_console_realtime.spec.ts。覆盖一线坐席的billing队列、主管的跨队列P1会话、technical队列的C1027详情、键盘焦点路径和固定时刻下的SLA文案。会话排序依次使用priority、first_response_due_utc和conversation_id。测试不得改写fixtures中的原始数据，也不访问真实客服接口。
+
+交付playwright.config.ts、tests/support_console_realtime.spec.ts、reports/case_results.csv、reports/socket_event_audit.csv、reports/focus_path.csv和artifacts/agent-billing-after-feed.png。三份报告记录浏览器实际观察值，截图取自坐席完成S01至S03回放后的billing队列。配置使用Asia/Shanghai时区并启动本地静态服务。在input_data目录执行npm run test:e2e后，五个场景全部通过，报告中的case_id、event_id和conversation_id能够互相对照。

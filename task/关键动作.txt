@@ -1,0 +1,7 @@
+读取会话、角色、Socket事件、场景和控制合同，建立case_id、event_id与conversation_id索引。
+依据agent_id、授权队列和跨坐席权限计算每个场景的可见会话。
+使用Playwright路由接管/api/conversations，并向页面返回当前角色可见的数据。
+在页面脚本执行前替换WebSocket，按socket_feed.json顺序发送S01至S04。
+操作队列和会话卡片，核对优先级排序、SLA文案及C1027详情。
+通过真实Tab和Enter键走完搜索框、队列、会话、回复框和发送按钮。
+从浏览器观察值生成案例结果、事件审计、焦点路径和发布截图。
